@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"strings"
 
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/project/internal/project/model"
 	"github.com/cloudnativedaysjp/cnd-handson-app/backend/project/internal/project/service"
@@ -20,7 +21,7 @@ type ProjectServiceServer struct {
 func convertToProtoProject(project *model.Project) *projectpb.Project {
 	return &projectpb.Project{
 		Id:          project.ID.String(),
-		Name:        project.Name,
+		Name:        strings.ToLower(project.Name), // bug: 大文字を小文字に変換
 		Description: project.Description,
 		OwnerId:     project.OwnerID.String(),
 		CreatedAt:   timestamppb.New(project.CreatedAt),
